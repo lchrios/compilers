@@ -1,0 +1,6 @@
+// Compiled language
+DeclareFloat(b)
+DeclareFloat(a)
+a := 5
+b := a + 3.2
+Print(b)
