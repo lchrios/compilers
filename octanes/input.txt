@@ -1,0 +1,8 @@
+oct a = o34
+oct b = o8
+dec c = 135
+dec d = 145
+print a
+print b
+print c
+print d
