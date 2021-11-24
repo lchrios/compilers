@@ -1,19 +1,19 @@
 import ply.yacc as yacc
 import ply.lex as lex
-import sys
 
 literals = ['=', '+', '-', '*', '/', '(', ')']
 reserved = { 
     'int' : 'INTDEC',
     'float' : 'FLOATDEC',
-    'print' : 'PRINT'
+    'print' : 'PRINT',
+    'bool' : 'VBOOL',
  }
 
 tokens = [
-    'INUMBER', 'FNUMBER', 'NAME'
+    'INUMBER', 'FNUMBER', 'NAME', 'VARBOOL'
 ] + list(reserved.values())
 
-# Tokens
+# Token
 def t_NAME(t):
     r'[a-zA-Z_][a-zA-Z_0-9]*'
     t.type = reserved.get(t.value,'NAME')    # Check for reserved words
@@ -26,6 +26,11 @@ def t_FNUMBER(t):
 
 def t_INUMBER(t):
     r'\d+'
+    t.value = int(t.value)
+    return t
+
+def t_VARBOOL(t):
+    r'true|false'
     t.value = int(t.value)
     return t
 
@@ -43,6 +48,7 @@ def t_error(t):
 lexer = lex.lex()
 
 # Parsing rules
+
 precedence = (
     ('left', '+', '-'),
     ('left', '*', '/'),
@@ -56,14 +62,10 @@ abstractTree = []
 def p_statement_declare_int(p):
     '''statement : INTDEC NAME is_assing
     '''
-    if type(p[3]) == float:
-        print('Float can\'t be assigned to integer')
+    if type(p[3]) == 'float':
+        print('No puedes asignar flotantes a enteros')
     else:
         names[p[2]] = { "type": "INT", "value": p[3]}
-
-def p_statement_declare_float(p):
-    'statement : FLOATDEC NAME is_assing'
-    names[p[2]] = { "type": "FLOAT", "value":p[3]}
 
 def p_is_assing(p):
     '''is_assing : "=" expression 
@@ -71,6 +73,14 @@ def p_is_assing(p):
     p[0] = 0
     if len(p) > 2:
         p[0] = p[2]
+
+def p_statement_declare_float(p):
+    'statement : FLOATDEC NAME'
+    names[p[2]] = { "type": "FLOAT", "value":0}
+
+def p_statement_declare_bool(p):
+    'statement : VBOOL NAME'
+    names[p[2]] = { "type": "BOOL", "value":0}
 
 def p_statement_print(p):
     '''statement : PRINT '(' expression ')' '''
@@ -81,6 +91,7 @@ def p_statement_assign(p):
     if p[1] not in names:
         print ( "You must declare a variable before using it")
     names[p[1]]["value"] = p[3]
+
 
 def p_statement_expr(p):
     'statement : expression'
@@ -112,6 +123,10 @@ def p_expression_fnumber(p):
     "expression : FNUMBER"
     p[0] = p[1]
 
+def p_expression_varbool(p):
+    "expression : VARBOOL"
+    p[0] = p[1]
+
 def p_expression_name(p):
     "expression : NAME"
     try:
@@ -123,33 +138,26 @@ def p_expression_name(p):
 def p_error(p):
     if p:
         print(p)
-        print("Syntax error at line '%s' character '%s'" % (p.lineno, p.lexpos) )
+        print("Syntax error at line '%s' character '%s'" % (p.lexpos, p.lineno) )
     else:
         print("Syntax error at EOF")
 
 parser = yacc.yacc()
 
-# while True:
-#     try:
-#         s = input('calc > ')
-#     except EOFError:
-#         break
-#     if not s:
-#         continue
-#     yacc.parse(s)
+# Console 
+#while True:
+#    try:
+#        s = input('calc > ')
+#    except EOFError:
+#        break
+#    if not s:
+#        continue
+#    yacc.parse(s)
 
+#File
+inputData = []
+with open('data.txt') as file:
+    inputData = file.readlines()
 
-if len(sys.argv) == 3 and (sys.argv[1] == '--input' or sys.argv[1] == '-i'):
-    # Read from input
-    filePath = sys.argv[2]
-    print("Reading code input from '" + filePath + "'")
-else:
-    filePath = 'input.txt'
-
-
-lines = []
-with open(filePath) as file:
-    lines = file.readlines()
-
-for line in lines:
-    yacc.parse(line)
+for data in inputData:
+    yacc.parse(data)
