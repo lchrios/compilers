@@ -39,6 +39,7 @@ t_PLUSI = r'\+\+'
 t_MINUSI = r'\-\-'
 t_INTVAL = r'\d+'
 t_FLOATVAL = r'\d+\.\d+'
+t_ignore = " \t"
 
 # Token
 
@@ -65,7 +66,6 @@ def t_BOOLEAN(t):
 def t_ID(t):
     r'[a-zA-Z_][a-zA-Z_0-9]*'
     t.type = reserved.get(t.value,'ID')    # Check for reserved words
-    t.value = str(t.value)
     return t
 
 def t_PRINT(t):
@@ -123,7 +123,7 @@ def t_newline(t):
     r'\n+'
     t.lexer.lineno += t.value.count("\n")
 
-t_ignore = " \t"
+
 
 def t_error(t):
     print("Illegal character '%s'" % t.value[0])
