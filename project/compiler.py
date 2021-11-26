@@ -26,8 +26,8 @@ tokens = ['INTVAL',
           'STRINGVAL',
           'EQ',
           'NOTEQ',
-          'SMALLEQ',
-          'BIGEQ',
+          'SMLEQ',
+          'GRTEQ',
           'ID'] + list(reserved.values())
 
 # Token
@@ -87,15 +87,18 @@ precedence = (
 
 # dictionary of names
 names = {}
-abstractTree = []
+abstractTree = {}
+
+
+def p_init(p):
+    ''''''
 
 def p_statement_declare_int(p):
-    '''statement : INTDEC NAME is_assing
-    '''
-    if type(p[3]) == 'float':
-        print('No puedes asignar flotantes a enteros')
-    else:
+    '''statement : INTVAL NAME is_assing'''
+    if type(p[3]) == int:
         names[p[2]] = { "type": "INT", "value": p[3]}
+    else:
+        print('No puedes asignar flotantes a enteros')
 
 def p_is_assing(p):
     '''is_assing : "=" expression 
