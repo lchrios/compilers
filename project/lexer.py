@@ -27,16 +27,20 @@ tokens = ['INTVAL',
           'NOTEQ',
           'SMLEQ',
           'GRTEQ',
-          'PLUSI',
-          'MINUSI'
+          'SML',
+          'GRT',
+        #   'PLUSI',
+        #   'MINUSI'
           'ID'] + list(reserved.values())
 
 t_EQ = r'=='
 t_NOTEQ = r'!='
 t_GRTEQ = r'>='
 t_SMLEQ = r'<='
-t_PLUSI = r'\+\+'
-t_MINUSI = r'\-\-'
+t_SML = r'<'
+t_GRT = r'>'
+# t_PLUSI = r'\+\+'
+# t_MINUSI = r'\-\-'
 t_INTVAL = r'\d+'
 t_FLOATVAL = r'\d+\.\d+'
 t_ignore = " \t"

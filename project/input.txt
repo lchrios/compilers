@@ -1,6 +1,25 @@
-int a = 3
-float b = 3.5
-bool c
-print (a)
-print (b)
-print (a + b)
+string name = "Christopher Ismael";
+string lname = " Ortega Gonzalez";
+string fullName = name + lname;
+string matricula = "a01634500";
+
+boolean b = false;
+
+float a;
+float b = 5;
+
+if (x < y) {
+    b = true; 
+}
+
+int matnum = 1634500;
+int d = 1;
+int c = 0;
+
+while (d) {
+    c = c + 1;
+    b = b * c;
+    if (c == 100) {
+        b = false;
+    }
+}
