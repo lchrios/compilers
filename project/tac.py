@@ -33,6 +33,7 @@ class TAC:
         if not isinstance(node, Node):
             return node
         c = node.children
+        print(c)
 
 
         if node.type == 'block':

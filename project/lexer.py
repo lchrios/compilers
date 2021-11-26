@@ -29,6 +29,7 @@ tokens = ['INTVAL',
           'GRTEQ',
           'SML',
           'GRT',
+        #   'SEMI',
         #   'PLUSI',
         #   'MINUSI'
           'ID'] + list(reserved.values())
@@ -39,6 +40,7 @@ t_GRTEQ = r'>='
 t_SMLEQ = r'<='
 t_SML = r'<'
 t_GRT = r'>'
+# t_SEMI = r';'
 # t_PLUSI = r'\+\+'
 # t_MINUSI = r'\-\-'
 t_INTVAL = r'\d+'
@@ -58,9 +60,10 @@ def t_FLOAT(t):
     return t
 
 def t_STRING(t):
-    r'".*"'
+    r'\"([^\\\n]|(\\.))*?\"'
     t.value = t.value.replace("\"", "")
     t.type = reserved.get(t.value,'STRINGVAL') # Check for reserved words
+    return t
 
 def t_BOOLEAN(t):
     r'boolean'

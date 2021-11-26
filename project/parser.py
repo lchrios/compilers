@@ -58,18 +58,18 @@ def p_decl(p):
 
 def p_expr(p):
     '''expr : boolexpr
-                    | numexpr
-                    | strexpr
+        | numexpr
+        | strexpr
     '''
     p[0] = p[1]
 
 
 def p_boolexpr_bool(p):
     '''boolexpr : '(' boolexpr ')'
-                            | boolconst
-                            | ID
-                            | boolexpr boolop boolexpr
-                            | ID boolop boolexpr
+        | boolconst
+        | ID
+        | boolexpr boolop boolexpr
+        | ID boolop boolexpr
     '''
     if p[1] == '(':
         p[0] = Node('bool', [p[2]])
@@ -84,38 +84,37 @@ def p_boolexpr_num(p):
     '''
     p[0] = Node('numcomp', [p[1], p[2], p[3]])
 
-
 def p_boolconst(p):
     '''boolconst : TRUE
-                             | FALSE
+        | FALSE
     '''
     p[0] = p[1]
 
 def p_comp(p):
     '''comp : SML
-                    | SMLEQ
-                    | GRT
-                    | GRTEQ
-                    | EQ
-                    | NOTEQ
+        | SMLEQ
+        | GRT
+        | GRTEQ
+        | EQ
+        | NOTEQ
     '''
     p[0] = p[1]
 
 
 def p_boolop(p):
     '''boolop : AND
-                      | OR
+        | OR
     '''
     p[0] = p[1]
 
 
 def p_numexpr(p):
     '''numexpr : '(' numexpr ')'
-                       | INTVAL
-                       | FLOATVAL
-                       | ID
-                       | numexpr numop numexpr
-                       | ID numop numexpr 
+        | INTVAL
+        | FLOATVAL
+        | ID
+        | numexpr numop numexpr
+        | ID numop numexpr 
     '''
     if p[1] == '(':
         p[0] = Node('num', p[2])
@@ -191,12 +190,11 @@ def p_while(p):
 
 
 def p_error(p):
-    print("ERROR: "+str(p))
     raise(Exception(p))
 
 parser = yacc.yacc()
 
-abstractTree = parser.parse(lexer=lexer, input=open("input.txt").read())
+abstractTree = parser.parse(lexer=lexer, input=open("input.txt").read(), debug=True)
 
 print("The code has been succesfully compiled.")
 
