@@ -1,22 +1,22 @@
-string name = "Christopher" 
+string name = "Christopher";
 
-boolean b = false 
+boolean b = false;
 
-float a 
-float b = 5 
+float a;
+float b = 5;
 
 if (x < y) {
-    b = true 
+    b = true; 
 }
 
-int matnum = 1634500 ;
-int d = 1 
-int c = 0 
+int matnum = 1634500;
+int d = 1; 
+int c = 0;
 
 while (d) {
-    c = c + 1
-    b = b * c 
+    c = c + 1;
+    b = b * c ;
     if (c == 100) {
-        b = false
+        b = false;
     }
 }

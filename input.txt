@@ -1,9 +1,10 @@
-string name = "Christopher"; 
+string name = "Christopher" ; 
 
-boolean b = false; 
+boolean b = false ; 
 
 float a; 
 float b = 5;
+
 
 if (x < y) {
     b = true;

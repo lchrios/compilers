@@ -29,7 +29,7 @@ tokens = ['INTVAL',
           'GRTEQ',
           'SML',
           'GRT',
-        #   'SEMI',
+          'SEMI',
         #   'PLUSI',
         #   'MINUSI'
           'ID'] + list(reserved.values())
@@ -40,7 +40,7 @@ t_GRTEQ = r'>='
 t_SMLEQ = r'<='
 t_SML = r'<'
 t_GRT = r'>'
-# t_SEMI = r';'
+t_SEMI = r';'
 # t_PLUSI = r'\+\+'
 # t_MINUSI = r'\-\-'
 t_INTVAL = r'\d+'
