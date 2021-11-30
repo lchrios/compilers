@@ -1,44 +1,69 @@
 import ply.yacc as yacc
 import ply.lex as lex
 
-literals = ['=', '+', '-', '*', '/', '(', ')']
-reserved = { 
-    'int' : 'INTDEC',
-    'float' : 'FLOATDEC',
-    'print' : 'PRINT',
-    'bool' : 'VBOOL',
- }
+literals = ['=', '+', '-', '*', '/', '^', '(', ')', '{', '}', '<', '>', ';']
 
-tokens = [
-    'INUMBER', 'FNUMBER', 'NAME', 'VARBOOL'
-] + list(reserved.values())
+reserved = {
+    'int': 'INT',
+    'float': 'FLOAT',
+    'string': 'STRING',
+    'boolean': 'BOOLEAN',
+    'true': 'TRUE',
+    'false': 'FALSE',
+    'if': 'IF',
+    'elif': 'ELIF',
+    'else': 'ELSE',
+    'do': 'DO',
+    'while': 'WHILE',
+    'for': 'FOR',
+    'and': 'AND',
+    'or': 'OR',
+    'print': 'PRINT'
+}
+
+tokens = ['INTVAL',
+          'FLOATVAL',
+          'STRINGVAL',
+          'EQ',
+          'NOTEQ',
+          'SMLEQ',
+          'GRTEQ',
+          'ID'] + list(reserved.values())
 
 # Token
-def t_NAME(t):
-    r'[a-zA-Z_][a-zA-Z_0-9]*'
-    t.type = reserved.get(t.value,'NAME')    # Check for reserved words
+
+def t_INTVAL(t):
+    r'\d+'
+    t.value = int(t.value)
     return t
 
-def t_FNUMBER(t):
+def t_FLOATVAL(t):
     r'\d+\.\d+'
     t.value = float(t.value)
     return t
 
-def t_INUMBER(t):
-    r'\d+'
-    t.value = int(t.value)
+def t_ID(t):
+    r'[a-zA-Z_][a-zA-Z_0-9]*'
+    t.type = reserved.get(t.value,'ID')    # Check for reserved words
     return t
+
+def t_STRING(t):
+    r'".*"'
+    t.value = t.value.replace("\"", "")
+    t.type = reserved.get(t.value,'STRINGVAL') # Check for reserved words
+
 
 def t_VARBOOL(t):
     r'true|false'
     t.value = int(t.value)
     return t
 
-t_ignore = " \t"
 
 def t_newline(t):
     r'\n+'
     t.lexer.lineno += t.value.count("\n")
+
+t_ignore = " \t"
 
 def t_error(t):
     print("Illegal character '%s'" % t.value[0])
@@ -50,22 +75,30 @@ lexer = lex.lex()
 # Parsing rules
 
 precedence = (
+    ('right', '='),
+    ('left', 'EQ', 'NOTEQ'),
     ('left', '+', '-'),
     ('left', '*', '/'),
-    ('right', 'UMINUS'),
+    ('left', '^'),
+    ('left', 'AND', 'OR'),
+    ('nonassoc', '<', '>', 'BIGEQ', 'SMALLEQ'),
+    ('right', 'UMINUS')
 )
 
 # dictionary of names
 names = {}
-abstractTree = []
+abstractTree = {}
+
+
+def p_init(p):
+    ''''''
 
 def p_statement_declare_int(p):
-    '''statement : INTDEC NAME is_assing
-    '''
-    if type(p[3]) == 'float':
-        print('No puedes asignar flotantes a enteros')
-    else:
+    '''statement : INTVAL NAME is_assing'''
+    if type(p[3]) == int:
         names[p[2]] = { "type": "INT", "value": p[3]}
+    else:
+        print('No puedes asignar flotantes a enteros')
 
 def p_is_assing(p):
     '''is_assing : "=" expression 

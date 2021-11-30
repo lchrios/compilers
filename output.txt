@@ -1,6 +1,16 @@
-// Compiled language
-DeclareFloat(b)
-DeclareFloat(a)
-a := 5
-b := a + 3.2
-Print(b)
+r0 = x < y
+if false r0 goto L0
+b = true
+L0
+L1
+if false d goto L2
+r1 = c + 1
+c = r1
+r2 = b * c
+b = r2
+r3 = c == 100
+if false r3 goto L3
+b = false
+L3
+goto L1
+L2
