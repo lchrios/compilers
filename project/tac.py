@@ -54,6 +54,11 @@ class TAC:
             self.write_line(v, '=', self.gen_address_code(
                 c[0]), c[1], self.gen_address_code(c[2]))
             return v
+        if node.type == 'strcomp':
+            v = self.get_var()
+            self.write_line(v, '=', self.gen_address_code(
+                c[0]), c[1], self.gen_address_code(c[2]))
+            return v
         if node.type == 'num':
             return self.gen_address_code(c)
         if node.type == 'numop':

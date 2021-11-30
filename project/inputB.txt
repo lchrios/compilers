@@ -1,0 +1,9 @@
+string demo = "Que show profe se arma el 100azo";
+string demo2 = "si o ke";
+
+if (demo == "Que show profe se arma el 100azo") {
+    boolean demoEq = demo == demo2;
+    demo = "Ahora otra string";
+} else {
+    demo = "Demo en falso";
+}

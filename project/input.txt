@@ -1,14 +1,16 @@
 string name = "Christopher";
 string lname = " Ortega";
 string fullname = name + lname;
-print(fullname);
 
 boolean b = false;
 
-float a;
-float b = 5;
+float num1;
+float num2;
 
-if (x < y) {
+num1 = 4;
+num2 = num1 + 1;
+
+if (num1 < num2) {
     b = true; 
 }
 
@@ -23,5 +25,3 @@ while (d == 1) {
 }
 
 int matnum = 1634500;
-
-print(matnum)

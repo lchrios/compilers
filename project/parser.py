@@ -9,12 +9,6 @@ def setParentOfChildren(node):
         if isinstance(child, Node):
             child.parent = node
 
-def parse_args():
-    parser = argparse.ArgumentParser(description= "YACC parcer")
-    parser.add_argument("-f", "--file", nargs="?", help="Program file input")
-    var_args = vars(parser.parse_args())
-    return var_args
-
 
 def p_block(p):
     '''block : stmt block 
@@ -78,9 +72,15 @@ def p_boolexpr_bool(p):
     else:
         p[0] = Node('boolop', [p[1], p[2], p[3]])
 
+def p_boolexpr_str(p):
+    '''boolexpr : strexpr comp strexpr
+                | ID comp strexpr
+    '''
+    p[0] = Node('strcomp', [p[1], p[2], p[3]])
 
 def p_boolexpr_num(p):
     '''boolexpr : numexpr comp numexpr
+                | ID comp numexpr
     '''
     p[0] = Node('numcomp', [p[1], p[2], p[3]])
 
@@ -192,14 +192,18 @@ def p_while(p):
 def p_print(p):
     '''print : PRINT '(' expr ')'
     '''
-    print(p)
+    print(p[0])
 
 def p_error(p):
     raise(Exception(p))
 
 parser = yacc.yacc()
 
-abstractTree = parser.parse(lexer=lexer, input=open("input.txt").read(), debug=False)
+args_parser = argparse.ArgumentParser(description= "YACC parcer")
+args_parser.add_argument("-f", "--file", nargs="?", help="Program file input")
+var_args = vars(args_parser.parse_args())
+
+abstractTree = parser.parse(lexer=lexer, input=open(var_args['file']).read(), debug=True)
 
 print("The code has been succesfully compiled.")
 
