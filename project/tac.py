@@ -23,8 +23,8 @@ class TAC:
         self.label += 1
         return 'L' + str(self.label)
 
-    def add_line_num(self, my_str):
-        arr = my_str.split('\n')
+    def add_line_num(self, str_to_add):
+        arr = str_to_add.split('\n')
         for i in range(len(arr)):
             arr[i] = str(i) + '. ' + arr[i]
         return '\n'.join(arr)

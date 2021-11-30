@@ -190,16 +190,16 @@ def p_while(p):
 
 
 def p_print(p):
-    '''print : PRINT expr
+    '''print : PRINT '(' expr ')'
     '''
-    print(p[0])
+    print(p)
 
 def p_error(p):
     raise(Exception(p))
 
 parser = yacc.yacc()
 
-abstractTree = parser.parse(lexer=lexer, input=open("input.txt").read(), debug=True)
+abstractTree = parser.parse(lexer=lexer, input=open("input.txt").read(), debug=False)
 
 print("The code has been succesfully compiled.")
 
@@ -207,7 +207,7 @@ add_gen = TAC()
 add_gen.gen_address_code(abstractTree)
 
 f = open('output.txt', 'w')
-f.write(add_gen.str)
+f.write(add_gen.tac_str)
 f.close()
 
 print("Output code saved on output.txt")
